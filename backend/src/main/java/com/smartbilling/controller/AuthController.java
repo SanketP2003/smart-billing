@@ -68,7 +68,7 @@ public class AuthController {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setName(name);
-        user.setRole(User.Role.CASHIER); // Enforce Cashier role for all public registrations
+        user.setRole(User.Role.CASHIER);
 
         userRepository.save(user);
 
@@ -99,7 +99,6 @@ public class AuthController {
             user.setName(body.get("name"));
         }
         if (body.containsKey("email")) {
-            // Check if new email is already taken by someone else
             String newEmail = body.get("email");
             Optional<User> existing = userRepository.findByEmail(newEmail);
             if (existing.isPresent() && !existing.get().getId().equals(UUID.fromString(userId))) {

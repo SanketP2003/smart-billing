@@ -35,7 +35,6 @@ public class ProductController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) {
         try {
-            // Check for duplicate SKU
             if (product.getSku() != null && !product.getSku().isBlank()) {
                 if (productRepository.findBySku(product.getSku()).isPresent()) {
                     return ResponseEntity.status(409)

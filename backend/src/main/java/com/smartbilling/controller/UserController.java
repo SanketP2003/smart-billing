@@ -28,7 +28,6 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
-        // Erase passwords before sending to the frontend
         users.forEach(user -> user.setPassword(null));
         return ResponseEntity.ok(users);
     }
@@ -60,7 +59,7 @@ public class UserController {
 
         userRepository.save(user);
         
-        user.setPassword(null); // Don't return password
+        user.setPassword(null);
         return ResponseEntity.ok(user);
     }
 
@@ -112,8 +111,6 @@ public class UserController {
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(404).body(Map.of("error", "User not found"));
         }
-        
-        // Prevent admin from deleting themselves? Let's just allow it or rely on client side to hide the delete button for self.
         
         userRepository.deleteById(UUID.fromString(id));
         return ResponseEntity.ok(Map.of("message", "User deleted successfully"));

@@ -33,7 +33,6 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer) {
         try {
-            // Check for duplicate email
             if (customer.getEmail() != null && !customer.getEmail().isBlank()) {
                 if (customerRepository.findByEmail(customer.getEmail()).isPresent()) {
                     return ResponseEntity.status(409)

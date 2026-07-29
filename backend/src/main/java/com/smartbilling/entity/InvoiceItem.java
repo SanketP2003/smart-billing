@@ -44,7 +44,7 @@ public class InvoiceItem {
     private BigDecimal unitPrice;
 
     @Column(precision = 5, scale = 2)
-    private BigDecimal taxRate; // GST rate percentage (e.g. 5.0, 12.0, 18.0, 28.0)
+    private BigDecimal taxRate;
 
     @Column(precision = 12, scale = 2)
     private BigDecimal taxAmount;

@@ -24,7 +24,6 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        // Create default Admin user if it doesn't exist
         if (userRepository.findByEmail("admin@smartbilling.com").isEmpty()) {
             User admin = User.builder()
                     .email("admin@smartbilling.com")
@@ -36,7 +35,6 @@ public class DatabaseSeeder implements CommandLineRunner {
             System.out.println("✅ Default Admin user created (admin@smartbilling.com / Admin@123)");
         }
 
-        // Create default Manager user if it doesn't exist
         if (userRepository.findByEmail("manager@smartbilling.com").isEmpty()) {
             User manager = User.builder()
                     .email("manager@smartbilling.com")
