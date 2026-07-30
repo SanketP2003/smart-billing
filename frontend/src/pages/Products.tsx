@@ -234,51 +234,51 @@ export default function Products() {
       {/* Modal Overlay */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div className="px-6 py-4 border-b border-slate-100">
-              <h2 className="text-sm font-bold text-slate-800">{editingId ? 'Edit Product' : 'Add New Product'}</h2>
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-200 dark:border-slate-800">
+            <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <h2 className="text-sm font-bold text-slate-800 dark:text-white">{editingId ? 'Edit Product' : 'Add New Product'}</h2>
             </div>
             <form onSubmit={handleSubmit} className="p-5 space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-bold text-slate-500 uppercase">Product Name</Label>
-                <Input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="bg-slate-50 border-slate-200" />
+                <Label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Product Name</Label>
+                <Input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-bold text-slate-500 uppercase">SKU</Label>
-                  <Input required value={formData.sku} onChange={e => setFormData({ ...formData, sku: e.target.value })} className="bg-slate-50 font-mono text-xs" />
+                  <Label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">SKU</Label>
+                  <Input required value={formData.sku} onChange={e => setFormData({ ...formData, sku: e.target.value })} className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 font-mono text-xs" />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-bold text-slate-500 uppercase">HSN/SAC Code</Label>
-                  <Input value={formData.hsnSacCode} onChange={e => setFormData({ ...formData, hsnSacCode: e.target.value })} className="bg-slate-50 font-mono text-xs" />
+                  <Label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">HSN/SAC Code</Label>
+                  <Input value={formData.hsnSacCode} onChange={e => setFormData({ ...formData, hsnSacCode: e.target.value })} className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700 font-mono text-xs" />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-bold text-slate-500 uppercase">Category</Label>
-                <Input value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="bg-slate-50" />
+                <Label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Category</Label>
+                <Input value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-bold text-slate-500 uppercase">Price (₹)</Label>
-                  <Input required type="number" step="0.01" min="0" value={formData.price} onChange={e => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })} className="bg-slate-50" />
+                  <Label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Price (₹)</Label>
+                  <Input required type="number" step="0.01" min="0" value={formData.price} onChange={e => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })} className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-bold text-slate-500 uppercase">GST Rate (%)</Label>
-                  <Input required type="number" min="0" max="100" value={formData.gstRate} onChange={e => setFormData({ ...formData, gstRate: parseFloat(e.target.value) || 0 })} className="bg-slate-50" />
+                  <Label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">GST Rate (%)</Label>
+                  <Input required type="number" min="0" max="100" value={formData.gstRate} onChange={e => setFormData({ ...formData, gstRate: parseFloat(e.target.value) || 0 })} className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-bold text-slate-500 uppercase">Initial Stock</Label>
-                  <Input required type="number" min="0" value={formData.stock} onChange={e => setFormData({ ...formData, stock: parseInt(e.target.value) || 0 })} className="bg-slate-50" />
+                  <Label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Initial Stock</Label>
+                  <Input required type="number" min="0" value={formData.stock} onChange={e => setFormData({ ...formData, stock: parseInt(e.target.value) || 0 })} className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-bold text-slate-500 uppercase">Low Stock Alert</Label>
-                  <Input required type="number" min="0" value={formData.lowStockThreshold} onChange={e => setFormData({ ...formData, lowStockThreshold: parseInt(e.target.value) || 0 })} className="bg-slate-50" />
+                  <Label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Low Stock Alert</Label>
+                  <Input required type="number" min="0" value={formData.lowStockThreshold} onChange={e => setFormData({ ...formData, lowStockThreshold: parseInt(e.target.value) || 0 })} className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700" />
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-2 pt-4 border-t border-slate-100">
+              <div className="flex justify-end space-x-2 pt-4 border-t border-slate-100 dark:border-slate-800">
                 <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancel</Button>
                 <Button type="submit" className="font-bold" disabled={submitting}>
                   {submitting ? (

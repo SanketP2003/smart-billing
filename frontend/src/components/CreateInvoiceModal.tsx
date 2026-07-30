@@ -154,14 +154,14 @@ export function CreateInvoiceModal({ isOpen, onClose, onSave, customers }: Creat
                     <Label htmlFor="customer">Customer</Label>
                     <select
                       id="customer"
-                      className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex h-10 w-full rounded-md border border-slate-200 bg-white text-slate-900 dark:bg-slate-800 dark:text-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
                       value={selectedCustomerId}
                       onChange={(e) => setSelectedCustomerId(e.target.value)}
                       required
                     >
-                      <option value="" disabled>Select a customer...</option>
+                      <option value="" disabled className="text-slate-500">Select a customer...</option>
                       {customers.map(c => (
-                        <option key={c.id} value={c.id}>{c.name}</option>
+                        <option key={c.id} value={c.id} className="text-slate-900 dark:text-white">{c.name}</option>
                       ))}
                     </select>
                   </div>
@@ -190,14 +190,14 @@ export function CreateInvoiceModal({ isOpen, onClose, onSave, customers }: Creat
                       <div className="flex-1 space-y-2">
                         <Label>Product / Service</Label>
                         <select
-                          className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+                          className="flex h-10 w-full rounded-md border border-slate-200 bg-white text-slate-900 dark:bg-slate-800 dark:text-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                           value={item.productId}
                           onChange={(e) => updateLineItem(index, 'productId', e.target.value)}
                           required
                         >
-                          <option value="" disabled>Select a product...</option>
+                          <option value="" disabled className="text-slate-500">Select a product...</option>
                           {products.map(p => (
-                            <option key={p.id} value={p.id}>{p.name} - ${p.price}</option>
+                            <option key={p.id} value={p.id} className="text-slate-900 dark:text-white">{p.name} - ${p.price}</option>
                           ))}
                         </select>
                       </div>
