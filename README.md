@@ -39,7 +39,7 @@ Configure the following properties in `backend/src/main/resources/application.pr
 cd backend
 mvn spring-boot:run
 ```
-The backend will run on `http://localhost:8080`.
+The backend will run on `http://localhost:8082`.
 
 #### Starting the Frontend
 ```bash
@@ -59,7 +59,7 @@ To build and run both the frontend and backend services simultaneously:
 docker-compose up --build
 ```
 - The frontend will be accessible at `http://localhost:80`
-- The backend will be accessible at `http://localhost:8080`
+- The backend will be accessible at `http://localhost:8082`
 
 ## AI Features
 - **Actionable Dashboard Insights**: Analyzes raw revenue and stats to output strategic business recommendations using Gemini 3.5 Flash.

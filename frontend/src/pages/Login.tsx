@@ -27,10 +27,16 @@ export default function Login() {
         body: JSON.stringify({ email, password })
       });
       
-      const data = await res.json();
+      const contentType = res.headers.get('content-type');
+      let data: any = {};
+      if (contentType && contentType.includes('application/json')) {
+        data = await res.json();
+      } else if (!res.ok) {
+        throw new Error(`Server returned an invalid response (${res.status}). Please check backend status.`);
+      }
       
       if (!res.ok) {
-        throw new Error(data.error || 'Login failed');
+        throw new Error(data.error || data.message || 'Login failed');
       }
       
       login(data.token, data.user);
@@ -120,7 +126,7 @@ export default function Login() {
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-12 bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 focus:ring-violet-500 focus:border-violet-500 transition-all"
+                className="h-12 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-slate-200 dark:border-slate-800 focus:ring-violet-500 focus:border-violet-500 transition-all"
                 required 
               />
             </div>
@@ -135,7 +141,7 @@ export default function Login() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-12 bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 focus:ring-violet-500 focus:border-violet-500 transition-all"
+                className="h-12 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-slate-200 dark:border-slate-800 focus:ring-violet-500 focus:border-violet-500 transition-all"
                 required 
               />
             </div>

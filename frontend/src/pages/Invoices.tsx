@@ -29,8 +29,8 @@ export default function Invoices() {
         fetch('/api/customers', { headers: getAuthHeaders() })
       ]);
       const [invData, custData] = await Promise.all([
-        invRes.json(),
-        custRes.json()
+        invRes.ok ? invRes.json().catch(() => []) : [],
+        custRes.ok ? custRes.json().catch(() => []) : []
       ]);
       setInvoices(Array.isArray(invData) ? invData : []);
       setCustomers(Array.isArray(custData) ? custData : []);

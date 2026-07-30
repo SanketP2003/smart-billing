@@ -27,10 +27,16 @@ export default function Register() {
         body: JSON.stringify({ email, password, name })
       });
       
-      const data = await res.json();
+      const contentType = res.headers.get('content-type');
+      let data: any = {};
+      if (contentType && contentType.includes('application/json')) {
+        data = await res.json();
+      } else if (!res.ok) {
+        throw new Error(`Server returned an invalid response (${res.status}). Please check backend status.`);
+      }
       
       if (!res.ok) {
-        throw new Error(data.error || 'Registration failed');
+        throw new Error(data.error || data.message || 'Registration failed');
       }
       
       login(data.token, data.user);
@@ -121,7 +127,7 @@ export default function Register() {
                 placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="h-12 bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                className="h-12 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-slate-200 dark:border-slate-800 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
                 required 
               />
             </div>
@@ -133,7 +139,7 @@ export default function Register() {
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-12 bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                className="h-12 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-slate-200 dark:border-slate-800 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
                 required 
               />
             </div>
@@ -145,7 +151,7 @@ export default function Register() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-12 bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                className="h-12 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-slate-200 dark:border-slate-800 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
                 required 
                 minLength={6}
               />
