@@ -135,14 +135,14 @@ export function CreateInvoiceModal({ isOpen, onClose, onSave, customers }: Creat
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl bg-white rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[90vh]"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[90vh]"
           >
-            <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50/50">
+            <div className="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
               <div>
-                <h2 className="text-xl font-bold text-slate-900">Create New Invoice</h2>
-                <p className="text-sm text-slate-500 mt-1">Generate a new bill for a customer</p>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white">Create New Invoice</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Generate a new bill for a customer</p>
               </div>
-              <Button variant="ghost" size="sm" onClick={onClose} className="rounded-full h-8 w-8 p-0">
+              <Button variant="ghost" size="sm" onClick={onClose} className="rounded-full h-8 w-8 p-0 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
                 <X className="h-4 w-4" />
               </Button>
             </div>
@@ -151,36 +151,37 @@ export function CreateInvoiceModal({ isOpen, onClose, onSave, customers }: Creat
               <form id="invoice-form" onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="customer">Customer</Label>
+                    <Label htmlFor="customer" className="text-slate-900 dark:text-slate-200 font-medium">Customer</Label>
                     <select
                       id="customer"
-                      className="flex h-10 w-full rounded-md border border-slate-200 bg-white text-slate-900 dark:bg-slate-800 dark:text-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex h-10 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
                       value={selectedCustomerId}
                       onChange={(e) => setSelectedCustomerId(e.target.value)}
                       required
                     >
-                      <option value="" disabled className="text-slate-500">Select a customer...</option>
+                      <option value="" disabled className="bg-white dark:bg-slate-800 text-slate-500">Select a customer...</option>
                       {customers.map(c => (
-                        <option key={c.id} value={c.id} className="text-slate-900 dark:text-white">{c.name}</option>
+                        <option key={c.id} value={c.id} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">{c.name}</option>
                       ))}
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="dueDate">Due Date</Label>
+                    <Label htmlFor="dueDate" className="text-slate-900 dark:text-slate-200 font-medium">Due Date</Label>
                     <Input
                       id="dueDate"
                       type="date"
                       value={dueDate}
                       onChange={(e) => setDueDate(e.target.value)}
+                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-300 dark:border-slate-700"
                       required
                     />
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                    <h3 className="text-sm font-bold text-slate-900">Line Items</h3>
-                    <Button type="button" variant="outline" size="sm" onClick={addLineItem} className="h-8">
+                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">Line Items</h3>
+                    <Button type="button" variant="outline" size="sm" onClick={addLineItem} className="h-8 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white">
                       <Plus className="w-3 h-3 mr-1" /> Add Item
                     </Button>
                   </div>
@@ -188,32 +189,33 @@ export function CreateInvoiceModal({ isOpen, onClose, onSave, customers }: Creat
                   {lineItems.map((item, index) => (
                     <div key={index} className="flex gap-4 items-end animate-in slide-in-from-top-2 fade-in">
                       <div className="flex-1 space-y-2">
-                        <Label>Product / Service</Label>
+                        <Label className="text-slate-900 dark:text-slate-200 font-medium">Product / Service</Label>
                         <select
-                          className="flex h-10 w-full rounded-md border border-slate-200 bg-white text-slate-900 dark:bg-slate-800 dark:text-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                          className="flex h-10 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                           value={item.productId}
                           onChange={(e) => updateLineItem(index, 'productId', e.target.value)}
                           required
                         >
-                          <option value="" disabled className="text-slate-500">Select a product...</option>
+                          <option value="" disabled className="bg-white dark:bg-slate-800 text-slate-500">Select a product...</option>
                           {products.map(p => (
-                            <option key={p.id} value={p.id} className="text-slate-900 dark:text-white">{p.name} - ${p.price}</option>
+                            <option key={p.id} value={p.id} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">{p.name} - ${p.price}</option>
                           ))}
                         </select>
                       </div>
                       <div className="w-32 space-y-2">
-                        <Label>Quantity</Label>
+                        <Label className="text-slate-900 dark:text-slate-200 font-medium">Quantity</Label>
                         <Input
                           type="number"
                           min="1"
                           value={item.quantity}
                           onChange={(e) => updateLineItem(index, 'quantity', parseInt(e.target.value) || 1)}
+                          className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-slate-300 dark:border-slate-700"
                           required
                         />
                       </div>
                       <div className="w-32 space-y-2">
-                        <Label>Line Total</Label>
-                        <div className="h-10 flex items-center px-3 bg-slate-50 border border-slate-200 rounded-md text-sm font-semibold text-slate-700">
+                        <Label className="text-slate-900 dark:text-slate-200 font-medium">Line Total</Label>
+                        <div className="h-10 flex items-center px-3 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-md text-sm font-semibold text-slate-900 dark:text-white">
                           ${(
                             (products.find(p => p.id === item.productId)?.price || 0) * item.quantity
                           ).toFixed(2)}
@@ -222,7 +224,7 @@ export function CreateInvoiceModal({ isOpen, onClose, onSave, customers }: Creat
                       <Button 
                         type="button" 
                         variant="ghost" 
-                        className="h-10 w-10 p-0 text-rose-500 hover:text-rose-600 hover:bg-rose-50 flex-shrink-0"
+                        className="h-10 w-10 p-0 text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 flex-shrink-0"
                         onClick={() => removeLineItem(index)}
                         disabled={lineItems.length === 1}
                       >
@@ -232,23 +234,23 @@ export function CreateInvoiceModal({ isOpen, onClose, onSave, customers }: Creat
                   ))}
                 </div>
 
-                <div className="bg-slate-50 p-6 rounded-xl border border-slate-100 flex flex-col items-end space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                    <Calculator className="w-4 h-4" /> Subtotal: <span className="text-slate-900 w-24 text-right">${subtotal.toFixed(2)}</span>
+                <div className="bg-slate-50 dark:bg-slate-800/60 p-6 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col items-end space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 font-medium">
+                    <Calculator className="w-4 h-4" /> Subtotal: <span className="text-slate-900 dark:text-white font-bold w-24 text-right">${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                    Tax Amount: <span className="text-slate-900 w-24 text-right">${taxTotal.toFixed(2)}</span>
+                  <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 font-medium">
+                    Tax Amount: <span className="text-slate-900 dark:text-white font-bold w-24 text-right">${taxTotal.toFixed(2)}</span>
                   </div>
-                  <div className="w-48 h-px bg-slate-200 my-1" />
-                  <div className="flex items-center gap-2 text-lg font-bold text-slate-900">
-                    Total: <span className="text-primary-600 w-24 text-right">${total.toFixed(2)}</span>
+                  <div className="w-48 h-px bg-slate-200 dark:bg-slate-700 my-1" />
+                  <div className="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-white">
+                    Total: <span className="text-primary-600 dark:text-primary-400 w-24 text-right">${total.toFixed(2)}</span>
                   </div>
                 </div>
               </form>
             </div>
 
-            <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex justify-end gap-3 mt-auto">
-              <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
+            <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 flex justify-end gap-3 mt-auto">
+              <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting} className="border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white">
                 Cancel
               </Button>
               <Button type="submit" form="invoice-form" className="bg-primary-600 text-white hover:bg-primary-700" disabled={isSubmitting}>
