@@ -32,10 +32,13 @@ public class ProductController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'CASHIER')")
     public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) {
         try {
-            if (product.getSku() != null && !product.getSku().isBlank()) {
+            if (product.getSku() != null && product.getSku().isBlank()) {
+                product.setSku(null);
+            }
+            if (product.getSku() != null) {
                 if (productRepository.findBySku(product.getSku()).isPresent()) {
                     return ResponseEntity.status(409)
                             .body(Map.of("error", "A product with SKU '" + product.getSku() + "' already exists"));
@@ -49,11 +52,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'CASHIER')")
     public ResponseEntity<?> updateProduct(@PathVariable UUID id, @Valid @RequestBody Product productDetails) {
         return productRepository.findById(id).map(product -> {
             product.setName(productDetails.getName());
-            product.setSku(productDetails.getSku());
+            String sku = productDetails.getSku();
+            if (sku != null && sku.isBlank()) sku = null;
+            product.setSku(sku);
             product.setHsnSacCode(productDetails.getHsnSacCode());
             product.setCategory(productDetails.getCategory());
             product.setPrice(productDetails.getPrice());
@@ -65,7 +70,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'CASHIER')")
     public ResponseEntity<?> deleteProduct(@PathVariable UUID id) {
         if (!productRepository.existsById(id)) {
             return ResponseEntity.status(404).body(Map.of("error", "Product not found"));
