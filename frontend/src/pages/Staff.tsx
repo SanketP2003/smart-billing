@@ -6,6 +6,8 @@ import { Label } from '../components/ui/label';
 import { Plus, Search, Edit2, Trash2, Users as UsersIcon, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
+import { getApiUrl, getAuthHeaders } from '../lib/api';
+
 export default function Staff() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,8 +27,8 @@ export default function Staff() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/users', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      const res = await fetch(getApiUrl('/api/users'), {
+        headers: getAuthHeaders()
       });
       if (res.ok) {
         const data = await res.json();
@@ -55,21 +57,15 @@ export default function Staff() {
       }
 
       if (editingId) {
-        await fetch(`/api/users/${editingId}`, {
+        await fetch(getApiUrl(`/api/users/${editingId}`), {
           method: 'PUT',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          },
+          headers: getAuthHeaders(true),
           body: JSON.stringify(payload)
         });
       } else {
-        await fetch('/api/users', {
+        await fetch(getApiUrl('/api/users'), {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          },
+          headers: getAuthHeaders(true),
           body: JSON.stringify(payload)
         });
       }
@@ -89,9 +85,9 @@ export default function Staff() {
 
   const handleDelete = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this staff member?")) {
-      await fetch(`/api/users/${id}`, { 
+      await fetch(getApiUrl(`/api/users/${id}`), { 
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        headers: getAuthHeaders()
       });
       fetchUsers();
     }

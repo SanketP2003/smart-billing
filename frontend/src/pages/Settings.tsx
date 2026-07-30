@@ -4,6 +4,8 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 
+import { getApiUrl, getAuthHeaders } from '../lib/api';
+
 export default function Settings() {
   const { user } = useAuth();
   
@@ -22,21 +24,24 @@ export default function Settings() {
     setError('');
     
     try {
-      const response = await fetch('/api/auth/profile', {
+      const response = await fetch(getApiUrl('/api/auth/profile'), {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
+        headers: getAuthHeaders(true),
         body: JSON.stringify({ name, email, password })
       });
       
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Failed to update profile');
+      const contentType = response.headers.get('content-type');
+      let data: any = {};
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      }
+      if (!response.ok) throw new Error(data.error || data.message || 'Failed to update profile');
       
       setMessage('Profile updated successfully! Refresh the page to see changes globally.');
       setPassword('');
-      localStorage.setItem('user', JSON.stringify(data.user));
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {

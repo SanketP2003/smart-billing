@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { TrendingUp, Users, DollarSign, Package, CreditCard, Sparkles } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { getApiUrl } from '../lib/api';
 
 const revenueData = [
   { name: 'Jan', current: 4000, previous: 2400 },
@@ -30,7 +31,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch('/api/dashboard/stats', {
+    fetch(getApiUrl('/api/dashboard/stats'), {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -54,7 +55,7 @@ export default function Dashboard() {
     setLoadingInsights(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/ai/insights', {
+      const response = await fetch(getApiUrl('/api/ai/insights'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

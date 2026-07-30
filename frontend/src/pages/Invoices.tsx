@@ -8,10 +8,7 @@ import { Plus, Search, FileText, Trash2 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { CreateInvoiceModal } from '../components/CreateInvoiceModal';
 
-function getAuthHeaders() {
-  const token = localStorage.getItem('token');
-  return { 'Authorization': token ? `Bearer ${token}` : '' };
-}
+import { getApiUrl, getAuthHeaders } from '../lib/api';
 
 export default function Invoices() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -25,8 +22,8 @@ export default function Invoices() {
     setLoading(true);
     try {
       const [invRes, custRes] = await Promise.all([
-        fetch('/api/invoices', { headers: getAuthHeaders() }),
-        fetch('/api/customers', { headers: getAuthHeaders() })
+        fetch(getApiUrl('/api/invoices'), { headers: getAuthHeaders() }),
+        fetch(getApiUrl('/api/customers'), { headers: getAuthHeaders() })
       ]);
       const [invData, custData] = await Promise.all([
         invRes.ok ? invRes.json().catch(() => []) : [],
@@ -49,7 +46,7 @@ export default function Invoices() {
 
   const handleDelete = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this invoice?")) {
-      await fetch(`/api/invoices/${id}`, { method: 'DELETE', headers: getAuthHeaders() });
+      await fetch(getApiUrl(`/api/invoices/${id}`), { method: 'DELETE', headers: getAuthHeaders() });
       fetchData();
     }
   };

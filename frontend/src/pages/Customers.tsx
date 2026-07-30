@@ -6,13 +6,7 @@ import { Label } from '../components/ui/label';
 import { Plus, Search, Edit2, Trash2, Users, CheckCircle2, XCircle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
-function getAuthHeaders(contentType = false) {
-  const token = localStorage.getItem('token');
-  const headers: Record<string, string> = {};
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-  if (contentType) headers['Content-Type'] = 'application/json';
-  return headers;
-}
+import { getApiUrl, getAuthHeaders } from '../lib/api';
 
 export default function Customers() {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -41,7 +35,7 @@ export default function Customers() {
   const fetchCustomers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/customers', {
+      const res = await fetch(getApiUrl('/api/customers'), {
         headers: getAuthHeaders()
       });
       if (!res.ok) throw new Error(`Failed to fetch customers (${res.status})`);
@@ -66,7 +60,7 @@ export default function Customers() {
       const url = editingId ? `/api/customers/${editingId}` : '/api/customers';
       const method = editingId ? 'PUT' : 'POST';
 
-      const res = await fetch(url, {
+      const res = await fetch(getApiUrl(url), {
         method,
         headers: getAuthHeaders(true),
         body: JSON.stringify(formData)
@@ -105,7 +99,7 @@ export default function Customers() {
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this customer?")) return;
     try {
-      const res = await fetch(`/api/customers/${id}`, {
+      const res = await fetch(getApiUrl(`/api/customers/${id}`), {
         method: 'DELETE',
         headers: getAuthHeaders()
       });

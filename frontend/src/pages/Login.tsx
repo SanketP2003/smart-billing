@@ -7,6 +7,8 @@ import { useAuth } from '../hooks/useAuth';
 import { motion } from 'motion/react';
 import { ShoppingCart, LogIn } from 'lucide-react';
 
+import { getApiUrl } from '../lib/api';
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +23,7 @@ export default function Login() {
     setError('');
     
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(getApiUrl('/api/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

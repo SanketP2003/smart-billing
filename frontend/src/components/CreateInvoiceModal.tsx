@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { X, Plus, Trash2, Calculator } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { getApiUrl, getAuthHeaders } from '../lib/api';
 
 interface CreateInvoiceModalProps {
   isOpen: boolean;
@@ -23,17 +24,17 @@ export function CreateInvoiceModal({ isOpen, onClose, onSave, customers }: Creat
 
   useEffect(() => {
     if (isOpen) {
-      fetch('/api/products', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      fetch(getApiUrl('/api/products'), {
+        headers: getAuthHeaders()
       })
-      .then(res => res.json())
-      .then(data => setProducts(data))
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setProducts(Array.isArray(data) ? data : []))
       .catch(console.error);
-      
+
       // Reset state
       setSelectedCustomerId(customers[0]?.id || '');
       setLineItems([{ productId: '', quantity: 1 }]);
-      
+
       const nextWeek = new Date();
       nextWeek.setDate(nextWeek.getDate() + 7);
       setDueDate(nextWeek.toISOString().split('T')[0]);
@@ -102,12 +103,9 @@ export function CreateInvoiceModal({ isOpen, onClose, onSave, customers }: Creat
         })
       };
 
-      const response = await fetch('/api/invoices', {
+      const response = await fetch(getApiUrl('/api/invoices'), {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
+        headers: getAuthHeaders(true),
         body: JSON.stringify(invoiceData)
       });
 
